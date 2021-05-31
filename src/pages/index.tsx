@@ -23,7 +23,7 @@ type FetchImagesParams = {
 
 export default function Home(): JSX.Element {
   const fetchImages = async ({ pageParam = 0 }: FetchImagesParams) => {
-    const response = await api.get(`/images?after=${pageParam}`);
+    const response = await api.get(`/api/images`);
 
     return response.data;
   };
@@ -36,7 +36,7 @@ export default function Home(): JSX.Element {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery('images', fetchImages, {
-    getNextPageParam: lastPage => lastPage.after ?? null,
+    getNextPageParam: lastPage => lastPage.after || null,
   });
 
   const formattedData = useMemo(
@@ -66,12 +66,15 @@ export default function Home(): JSX.Element {
             h="40px"
             bg="orange.500"
             onClick={() => fetchNextPage()}
-            isLoading={isFetchingNextPage}
           >
-            Carregar mais
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
           </Button>
         )}
       </Box>
     </>
   );
 }
+
+/*
+
+*/

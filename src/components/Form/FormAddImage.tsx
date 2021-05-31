@@ -19,8 +19,6 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   const [localImageUrl, setLocalImageUrl] = useState('');
   const toast = useToast();
 
-  /*  */
-
   const formValidations = {
     image: {
       lessThan10MB: (files: File[]) => files[0].size < 100000,
@@ -48,7 +46,8 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   };
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (payload: SendImagePayload): Promise<void> => api.post('images', payload),
+    (payload: SendImagePayload): Promise<void> =>
+      api.post('/api/images', payload),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('images');
